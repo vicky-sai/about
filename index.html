@@ -10,6 +10,7 @@
                 padding: 0;
                 box-sizing: border-box;
                 font-family: 'Courier New', Courier, monospace;
+                cursor: none;
             }
 
             body {
@@ -118,6 +119,24 @@
                 height: 100%;
                 object-fit: cover;
             }
+            /* Custom Neon Cursor */
+       		.custom-cursor {
+        	    position: absolute;
+       	 		border: 3px solid #00fff0; /* Neon border color */
+	            background-color: transparent;
+    	        width: 30px;
+        	    height: 30px;
+       			border-radius: 50%;
+	            pointer-events: none; /* Prevent cursor from interacting with other elements */
+    	        transition: transform 0.1s ease-in-out;
+        	    box-shadow: 0 0 15px #00fff0, 0 0 30px #ff00ff;
+            	z-index: 9999; /* Make sure it's above all content */
+	        }
+
+       		/* Hover effect for interactive elements (optional) */
+	        a:hover, button:hover, .download-link:hover, .language-item:hover {
+    	        transform: scale(1.2);
+        	}
 
             @keyframes glow {
                 from {
@@ -133,7 +152,7 @@
         <div class="container">
             <header>
                 <h1 class="neon-text">Vignesh R - The Data Wizard</h1>
-                <p>+91 8608577937 | vignesh.datawhiz@gmail.com | Bengaluru, India | <a href="http://www.linkedin.com/in/vcky/" style="color: #00fff0;">linkedin.com/in/vcky/</a></p>
+                <p><a href="tel:+918608577937" style="text-decoration: none;color: inherit;">+91 8608577937</a> &nbsp;|&nbsp; <a href="mailto:vignesh.datawhiz@gmail.com?subject=Job Opportunity" style="text-decoration: none;color: inherit;">vignesh.datawhiz@gmail.com</a> &nbsp;|&nbsp; Bengaluru, India &nbsp;|&nbsp; <a href="http://www.linkedin.com/in/vcky/" style="color: #00fff0;" target="_blank" >LinkedIn</a></p>
                 <div class="image-frame">
                     <!-- Placeholder for image; replace with actual image URL if available -->
                     <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/image.jpg" alt="Vignesh R Profile">
@@ -263,9 +282,21 @@
                 </ul>
             </div>
 
-            <div class="neon-section">
-                <a href="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/Vignesh_R_Data.pdf" class="download-link" target="_blank">Download Resume PDF</a>
+            <div class="neon-section" >
+                <h1 style="display: inline !important;">&rArr;</h1>&nbsp;
+                <a href="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/Vignesh_R_Data.pdf" class="download-link" target="_blank" >Download Resume PDF</a>
             </div>
         </div>
+        <script>
+       		// JavaScript to move the custom cursor
+	        const cursor = document.createElement('div');
+    	    cursor.classList.add('custom-cursor');
+       		document.body.appendChild(cursor);
+
+	        document.addEventListener('mousemove', (e) => {
+    	        cursor.style.left = `${e.pageX - cursor.offsetWidth / 2}px`;
+        	    cursor.style.top = `${e.pageY - cursor.offsetHeight / 2}px`;
+	        });
+    </script>
     </body>
     </html>
