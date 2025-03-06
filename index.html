@@ -1,302 +1,414 @@
- <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Vignesh R - Data Wizard</title>
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                font-family: 'Courier New', Courier, monospace;
-                cursor: none;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vignesh R - Data Wizard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
+            cursor: none;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            color: #fff;
+            line-height: 1.6;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .neon-text {
+            color: #fff;
+        }
+
+        .neon-section {
+            padding: 25px;
+            margin: 25px 0;
+            border: 1px solid #00fff0;
+            border-radius: 15px;
+            background: linear-gradient(145deg, rgba(0, 255, 240, 0.1), rgba(255, 0, 255, 0.1));
+            box-shadow: 0 5px 25px rgba(0, 255, 240, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .neon-section:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            background: linear-gradient(to right, #00fff0, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+
+        h2 {
+            color: #fff;
+            background: linear-gradient(to right, #00fff0, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        @media (max-width: 600px) { /* For mobile screens */
+    	.skills-grid {
+        		grid-template-columns: repeat(2, 1fr); /* Always 2 per row on mobile */
+		    }
+		}
+
+        .skill-item {
+            padding: 12px;
+            background: linear-gradient(135deg, rgba(0, 255, 240, 0.2), rgba(255, 0, 255, 0.2));
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 255, 240, 0.5);
+        }
+
+        .experience-item {
+            margin: 25px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .download-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(to right, #00fff0, #ff00ff);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .download-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 255, 240, 0.7);
+        }
+
+      .image-frame {
+            width: 250px;
+            height: 250px;
+            margin: 20px auto;
+            border: 3px solid #00fff0;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 255, 240, 0.4);
+            background: #fff;
+        }
+
+        .image-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Custom Neon Cursor */
+           .custom-cursor {
+            position: absolute;
+                border: 3px solid #00fff0; /* Neon border color */
+            background-color: transparent;
+            width: 30px;
+            height: 30px;
+               border-radius: 50%;
+            pointer-events: none; /* Prevent cursor from interacting with other elements */
+            transition: transform 0.1s ease-in-out;
+            box-shadow: 0 0 15px #00fff0, 0 0 30px #ff00ff;
+            z-index: 9999; /* Make sure it's above all content */
+        }
+
+           /* Hover effect for interactive elements (optional) */
+        a:hover, button:hover, .download-link:hover, .language-item:hover {
+            transform: scale(1.2);
+        }
+        .custom-list {
+               list-style: none; /* Remove default bullets */
+            padding-left: 0; /* Optional: Adjust padding if needed */
+        }
+
+        .custom-list li {
+            position: relative;
+            padding-left: 20px; /* Space for custom bullet */
+        }
+
+        .custom-list li::before {
+            content: "»"; /* Unicode arrow character */
+            position: absolute;
+            left: 0;
+            font-size: 18px; /* Adjust size if needed */
+        }
+
+        /* Table Styling */
+        .language-table {
+            width: 100%;
+            max-width: 400px;
+            border-collapse: collapse;
+            color: white;
+        }
+
+        .language-table th,
+        .language-table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #00ffcc;
+        }
+
+        .language-table th {
+            color: #ff00ff;
+            font-weight: bold;
+        }
+
+        .language-table td:first-child {
+            text-align: left;
+            color: #00ffcc;
+        }
+
+        /* Checkbox Styling */
+        .language-table input[type="checkbox"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #00ffcc;
+            border-radius: 4px;
+            background-color: transparent;
+            position: relative;
+            cursor: not-allowed;
+        }
+
+        .language-table input[type="checkbox"]:checked::before {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ff00ff;
+            font-size: 16px;
+        }
+
+        .language-table input[type="checkbox"]:disabled {
+            opacity: 0.7;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px #00fff0, 0 0 15px #00fff0, 0 0 25px #ff00ff;
             }
-
-            body {
-                background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
-                color: #fff;
-                line-height: 1.6;
-                padding: 40px;
+            to {
+                text-shadow: 0 0 10px #00fff0, 0 0 20px #ff00ff, 0 0 35px #00fff0;
             }
-
-            .container {
-                max-width: 1200px;
-                margin: 0 auto;
-            }
-
-            .neon-text {
-                color: #fff;
-            }
-
-            .neon-section {
-                padding: 25px;
-                margin: 25px 0;
-                border: 1px solid #00fff0;
-                border-radius: 15px;
-                background: linear-gradient(145deg, rgba(0, 255, 240, 0.1), rgba(255, 0, 255, 0.1));
-                box-shadow: 0 5px 25px rgba(0, 255, 240, 0.3);
-                transition: transform 0.3s ease;
-            }
-
-            .neon-section:hover {
-                transform: translateY(-5px);
-            }
-
-            h1 {
-                font-size: clamp(2rem, 4vw, 3.5rem);
-                background: linear-gradient(to right, #00fff0, #ff00ff);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-
-
-            h2 {
-                color: #fff;
-                background: linear-gradient(to right, #00fff0, #ff00ff);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                margin-bottom: 20px;
-                font-size: 1.8em;
-            }
-
-            .skills-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-                gap: 15px;
-                margin-top: 20px;
-            }
-
-            .skill-item {
-                padding: 12px;
-                background: linear-gradient(135deg, rgba(0, 255, 240, 0.2), rgba(255, 0, 255, 0.2));
-                border-radius: 8px;
-                text-align: center;
-                transition: all 0.3s ease;
-            }
-
-            .skill-item:hover {
-                transform: scale(1.05);
-                box-shadow: 0 0 15px rgba(0, 255, 240, 0.5);
-            }
-
-            .experience-item {
-                margin: 25px 0;
-                padding: 15px;
-                background: rgba(255, 255, 255, 0.05);
-                border-radius: 10px;
-            }
-
-            .download-link {
-                display: inline-block;
-                padding: 10px 20px;
-                background: linear-gradient(to right, #00fff0, #ff00ff);
-                color: #fff;
-                text-decoration: none;
-                border-radius: 25px;
-                margin-top: 20px;
-                transition: all 0.3s ease;
-            }
-
-            .download-link:hover {
-                transform: scale(1.05);
-                box-shadow: 0 0 20px rgba(0, 255, 240, 0.7);
-            }
-
-            .image-frame {
-                width: 250px;
-                height: 250px;
-                margin: 20px auto;
-                border: 3px solid #00fff0;
-                border-radius: 50%;
-                overflow: hidden;
-                box-shadow: 0 0 20px rgba(0, 255, 240, 0.4);
-                background: #fff;
-            }
-
-            .image-frame img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-            /* Custom Neon Cursor */
-       		.custom-cursor {
-        	    position: absolute;
-       	 		border: 3px solid #00fff0; /* Neon border color */
-	            background-color: transparent;
-    	        width: 30px;
-        	    height: 30px;
-       			border-radius: 50%;
-	            pointer-events: none; /* Prevent cursor from interacting with other elements */
-    	        transition: transform 0.1s ease-in-out;
-        	    box-shadow: 0 0 15px #00fff0, 0 0 30px #ff00ff;
-            	z-index: 9999; /* Make sure it's above all content */
-	        }
-
-       		/* Hover effect for interactive elements (optional) */
-	        a:hover, button:hover, .download-link:hover, .language-item:hover {
-    	        transform: scale(1.2);
-        	}
-
-            @keyframes glow {
-                from {
-                    text-shadow: 0 0 5px #00fff0, 0 0 15px #00fff0, 0 0 25px #ff00ff;
-                }
-                to {
-                    text-shadow: 0 0 10px #00fff0, 0 0 20px #ff00ff, 0 0 35px #00fff0;
-                }
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <header>
-                <h1 class="neon-text">Vignesh R - The Data Wizard</h1>
-                <p><a href="tel:+918608577937" style="text-decoration: none;color: inherit;">+91 8608577937</a> &nbsp;|&nbsp; <a href="mailto:vignesh.datawhiz@gmail.com?subject=Job Opportunity" style="text-decoration: none;color: inherit;">vignesh.datawhiz@gmail.com</a> &nbsp;|&nbsp; Bengaluru, India &nbsp;|&nbsp; <a href="http://www.linkedin.com/in/vcky/" style="color: #00fff0;" target="_blank" >LinkedIn</a></p>
-                <div class="image-frame">
-                    <!-- Placeholder for image; replace with actual image URL if available -->
-                    <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/image.jpg" alt="Vignesh R Profile">
-                </div>
-            </header>
-
-            <div class="neon-section">
-                <h2>Professional Summary</h2>
-                <p align="justify">A versatile Data Wizard with extensive experience in cutting-edge tech, driven by an insatiable passion for Data Technologies. I specialize in architecting scalable ETL pipelines, crafting insightful dashboards, and leveraging advanced analytics to empower decision-making. Currently thriving as a Senior Data Analytics Engineer at Infra.Market, I lead teams to deliver robust data solutions while exploring opportunities in Data Analytics, Data Engineering, and Data Science.</p>
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="neon-text">Vignesh R - The Data Wizard</h1>
+            <p><a href="tel:+918608577937" style="text-decoration: none;color: inherit;">+91 8608577937</a> &nbsp;|&nbsp; <a href="mailto:vignesh.datawhiz@gmail.com?subject=Job Opportunity" style="text-decoration: none;color: inherit;">vignesh.datawhiz@gmail.com</a> &nbsp;|&nbsp; Bengaluru, India &nbsp;|&nbsp; <a href="http://www.linkedin.com/in/vcky/" style="color: #00fff0;" target="_blank" >LinkedIn</a></p>
+            <div class="image-frame">
+                <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/image.jpg" alt="Vignesh R Profile">
             </div>
+        </header>
 
-            <div class="neon-section">
-                <h2>Technical Arsenal</h2>
-                <div class="skills-grid">
-                    <div class="skill-item">Python</div>
-                    <div class="skill-item">Data Analytics</div>
-                    <div class="skill-item">GCP/AWS/Azure</div>
-                    <div class="skill-item">Hadoop</div>
-                    <div class="skill-item">Jupyter</div>
-                    <div class="skill-item">Git</div>
-                    <div class="skill-item">Airflow</div>
-                    <div class="skill-item">NumPy</div>
-                    <div class="skill-item">Pandas</div>
-                    <div class="skill-item">Postgres</div>
-                    <div class="skill-item">SQL</div>
-                    <div class="skill-item">Tableau</div>
-                    <div class="skill-item">NLP</div>
-                    <div class="skill-item">Hadoop</div>
-                    <div class="skill-item">Power BI</div>
-                    <div class="skill-item">Postgres</div>
-                    <div class="skill-item">Databricks</div>
-                    <div class="skill-item">PySpark</div>
-                    <div class="skill-item">Apache Kafka</div>
-                    <div class="skill-item">Data Engineering</div>
-                    <div class="skill-item">ETL</div>
-                    <div class="skill-item">Big Data</div>
-                    <div class="skill-item">Machine Learning</div>
-                    <div class="skill-item">Apache Hive</div>
-                    <div class="skill-item">Data Governance</div>
-                    <div class="skill-item">Data Catalogue</div>
-                    <div class="skill-item">Data Modelling</div>
-                    <div class="skill-item">Excel</div>
-                    <div class="skill-item">Jira</div>
-                    <div class="skill-item">Automation</div>
-                </div>
-            </div>
+        <div class="neon-section">
+            <h2>Professional Summary</h2>
+            <p align="justify">A versatile Data Wizard with extensive experience in cutting-edge tech, driven by an insatiable passion for Data Technologies. I specialize in architecting scalable ETL pipelines, crafting insightful dashboards, and leveraging advanced analytics to empower decision-making. Currently thriving as a Senior Data Analytics Engineer at Infra.Market, I lead teams to deliver robust data solutions while exploring opportunities in Data Analytics, Data Engineering, and Data Science.</p>
+        </div>
 
-            <div class="neon-section">
-                <h2>Professional Journey</h2>
-                <div class="experience-item">
-                    <h3 style="display: flex;align-items: center;line-height: 2.2;">
-                     <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/inframarket.jpeg" alt="Infra.Market Logo" class="logo" style="height: 2em; margin-right: 10px;">
-                     Infra.Market - Senior Data Analytics Engineer</h3>
-                    <p style="display: flex;align-items: center;line-height: 2.2;">
-                     <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/location.png" class="logo" style="height: 1.5em; margin-right: 5px;"/>
-                     Bengaluru, KA, India | June 2023 - Present</p>
-                    <ul>
-                     <br>
-                        <li align="justify"><strong>Data Engineering:</strong> Architect & construct scalable ETL pipelines & data models, ensuring the seamless flow of data across various platforms.</li>
-                        <li align="justify"><strong>Data Analytics:</strong> Craft end-to-end dashboards to distill complex datasets into actionable insights, empowering stakeholders to make informed decisions based on robust data foundations.</li>
-                        <li align="justify"><strong>Leadership & Mentoring:</strong> Lead and mentor a dedicated team, fostering a collaborative and high-performing environment.</li>
-                    </ul>
-                </div>
-                <div class="experience-item">
-                    <h3 style="display: flex;align-items: center;line-height: 2.2;">
-                     <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/linkedin.jpeg" alt="LinkedIn Logo" class="logo" style="height: 2em; margin-right: 10px;">
-                     LinkedIn - Data Insights & Analytics Engineer</h3>
-                    <p style="display: flex;align-items: center;line-height: 2.2;">
-                     <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/location.png" class="logo" style="height: 1.5em; margin-right: 5px;"/>
-                     Bengaluru, KA, India | March 2022 - June 2023</p>
-                    <ul>
-                     <br>
-                        <li align="justify"><strong>Driving Scale for Platform Insights & Analytics:</strong> Intelligent automation of manual analytics. Results include client-ready decks, reports, or PDF documents, generated within a few clicks.</li>
-                        <li align="justify"><strong>Tableau Dashboard Analytics:</strong> Built end-to-end Tableau dashboards for visualizing various business verticals (e.g., Education, SaaS) for sales teams globally. Generated succinct reports and clear visualizations to allow insights analysts to focus on strategic projects.</li>
-                        <li align="justify"><strong>Sentiment Analytics, Marketing, Ad Analytics & Reporting:</strong> Scaled driving value from 1x to 100x, leveraging advanced automation strategies for go-to-market (GTM) initiatives.</li>
-                    </ul>
-                </div>
-                <div class="experience-item">
-                    <h3 style="display: flex;align-items: center;line-height: 2.2;">
-                     <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/citi.jpeg" alt="Citi Logo" class="logo" style="height: 2em; margin-right: 10px;">
-                     Citigroup - Specialist – Data Analytics</h3>
-                    <p style="display: flex;align-items: center;line-height: 2.2;">
-                     <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/location.png" class="logo" style="height: 1.5em; margin-right: 5px;"/>
-                     Chennai, TN, India | March 2021 - March 2022</p>
-                    <ul>
-                     <br>
-                        <li align="justify"><strong>Digital Analytics:</strong> Managed paperless enrollments for marketing campaigns of existing retail banking & credit card customers, along with managing BAU deliverables.</li>
-                        <li align="justify"><strong>Credit Cards – Loyalty Assessment:</strong> Identified customer spending behavior within specific portfolios to qualify them for earn & burn campaigns.</li>
-                        <li align="justify"><strong>Routine Analytics & Impact Assessment:</strong> Executed BAU deliverables to identify any outliers or pitfalls in existing campaigns.</li>
-                        <li align="justify"><strong>Platform Migration – SAS to PySpark:</strong> Migrated old static SAS codes to the PySpark Enterprise Analytics Platform, enhancing flexibility, reducing manual intervention, and automating tedious manual tasks.</li>
-                    </ul>
-                </div>
-                <div class="experience-item">
-                    <h3 style="display: flex;align-items: center;line-height: 2.2;">
-                     <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/verizon.jpeg" alt="Verizon Logo" class="logo" style="height: 2em; margin-right: 10px;">
-                     Verizon Communications - Specialist – Data Science/Analytics</h3>
-                    <p style="display: flex;align-items: center;line-height: 2.2;">
-                     <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/location.png" class="logo" style="height: 1.5em; margin-right: 5px;"/>
-                     Chennai, TN, India | July 2019 - March 2021</p>
-                    <ul>
-                     <br>
-                        <li align="justify"><strong>Machine Learning – Post-order Accessory Model:</strong> Predicted the likelihood of customers purchasing mobile phone accessories within a 15-day window after placing an order.</li>
-                        <li align="justify"><strong>Feed-card / Live Tiles - Optimization & Analysis:</strong> Performed analytics on personalization and prioritization of cards in the mobile app and website.</li>
-                        <li align="justify"><strong>Sales/Marketing Retrospective Analytics:</strong> Measured the effectiveness and impact of campaigns run by sales and marketing teams, providing actionable recommendations to the business.</li>
-                        <li align="justify"><strong>Effort Score Calculation:</strong> Developed a heuristic model to effectively measure customer struggles during their journey through digital touchpoints, contributing to enhanced customer experience.</li>
-                        <li align="justify"><strong>Managing Ad-hoc Requests:</strong> Handled various data-pull requests from multiple teams to effectively contribute insights to requesting teams.</li>
-                    </ul>
-                </div>
-            </div>
-
-
-            <div class="neon-section">
-                <h2>Education</h2>
-                <p style="display: flex;align-items: center;line-height: 2.2;">
-                 <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/1631367734119.jpeg" class="logo" style="height: 1.5em; margin-right: 5px;"/>
-                 <strong>Bachelor of Engineering - Computer Science Engineering</strong></p>
-                <p>Sri Shakthi Institute of Engineering Technology</p>
-                <p>August 2015 - April 2019 | GPA: 7.3</p>
-            </div>
-
-            <div class="neon-section">
-                <h2>Certifications</h2>
-                <ul>
-                    <li>AWS Certified Solutions Architect</li>
-                    <li>Java Full Stack Certification</li>
-                    <li>Japanese Language</li>
-                </ul>
-            </div>
-
-            <div class="neon-section" >
-                <h1 style="display: inline !important;">&rArr;</h1>&nbsp;
-                <a href="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/Vignesh_R_Data.pdf" class="download-link" target="_blank" >Download Resume PDF</a>
+        <div class="neon-section">
+            <h2>Technical Arsenal</h2>
+            <div class="skills-grid">
+                <div class="skill-item">Python</div>
+                <div class="skill-item">Data Analytics</div>
+                <div class="skill-item">GCP/AWS/Azure</div>
+                <div class="skill-item">Hadoop</div>
+                <div class="skill-item">Jupyter</div>
+                <div class="skill-item">Git</div>
+                <div class="skill-item">Airflow</div>
+                <div class="skill-item">NumPy</div>
+                <div class="skill-item">Pandas</div>
+                <div class="skill-item">Postgres</div>
+                <div class="skill-item">SQL</div>
+                <div class="skill-item">Tableau</div>
+                <div class="skill-item">NLP</div>
+                <div class="skill-item">Hadoop</div>
+                <div class="skill-item">Power BI</div>
+                <div class="skill-item">Postgres</div>
+                <div class="skill-item">Databricks</div>
+                <div class="skill-item">PySpark</div>
+				<div class="skill-item">Data Modelling</div>
+                <div class="skill-item">Data Engineering</div>
+                <div class="skill-item">ETL</div>
+                <div class="skill-item">Big Data</div>
+                <div class="skill-item">ML / AI</div>
+                <div class="skill-item">Apache Hive</div>
+                <div class="skill-item">Data Governance</div>
+                <div class="skill-item">Data Catalogue</div>   
+                <div class="skill-item">Apache Kafka</div>
+                <div class="skill-item">Excel</div>
+                <div class="skill-item">Jira</div>
+                <div class="skill-item">Automation</div>
             </div>
         </div>
-        <script>
-       		// JavaScript to move the custom cursor
-	        const cursor = document.createElement('div');
-    	    cursor.classList.add('custom-cursor');
-       		document.body.appendChild(cursor);
 
-	        document.addEventListener('mousemove', (e) => {
-    	        cursor.style.left = `${e.pageX - cursor.offsetWidth / 2}px`;
-        	    cursor.style.top = `${e.pageY - cursor.offsetHeight / 2}px`;
-	        });
-    </script>
-    </body>
-    </html>
+        <div class="neon-section">
+            <h2>Professional Journey</h2>
+            <div class="experience-item">
+                <h3 style="display: flex;align-items: center;">
+                 <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/inframarket.jpeg" alt="Infra.Market Logo" class="logo" style="height: 2em; margin-right: 10px;">
+                 Infra.Market - Senior Data Analytics Engineer</h3>
+                <p style="display: flex;align-items: center;padding-top:10px;">
+                 <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/location.png" class="logo" style="height: 1.2em; margin-right: 5px;"/>
+                 Bengaluru, KA, India | June 2023 - Present</p>
+                <ul class="custom-list">
+                 <br>
+                    <li align="justify"><strong>Data Engineering:</strong> Architect & construct scalable ETL pipelines & data models, ensuring the seamless flow of data across various platforms.</li>
+                    <li align="justify"><strong>Data Analytics:</strong> Craft end-to-end dashboards to distill complex datasets into actionable insights, empowering stakeholders to make informed decisions based on robust data foundations.</li>
+                    <li align="justify"><strong>Leadership & Mentoring:</strong> Lead and mentor a dedicated team, fostering a collaborative and high-performing environment.</li>
+                </ul>
+            </div>
+            <div class="experience-item">
+                <h3 style="display: flex;align-items: center;">
+                 <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/linkedin.jpeg" alt="LinkedIn Logo" class="logo" style="height: 2em; margin-right: 10px;">
+                 LinkedIn - Data Insights & Analytics Engineer</h3>
+                <p style="display: flex;align-items: center;padding-top:10px;">
+                 <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/location.png" class="logo" style="height: 1.2em; margin-right: 5px;"/>
+                 Bengaluru, KA, India | March 2022 - June 2023</p>
+                <ul class="custom-list">
+                 <br>
+                    <li align="justify"><strong>Driving Scale for Platform Insights & Analytics:</strong> Intelligent automation of manual analytics. Results include client-ready decks, reports, or PDF documents, generated within a few clicks.</li>
+                    <li align="justify"><strong>Tableau Dashboard Analytics:</strong> Built end-to-end Tableau dashboards for visualizing various business verticals (e.g., Education, SaaS) for sales teams globally. Generated succinct reports and clear visualizations to allow insights analysts to focus on strategic projects.</li>
+                    <li align="justify"><strong>Sentiment Analytics, Marketing, Ad Analytics & Reporting:</strong> Scaled driving value from 1x to 100x, leveraging advanced automation strategies for go-to-market (GTM) initiatives.</li>
+                </ul>
+            </div>
+            <div class="experience-item">
+                <h3 style="display: flex;align-items: center;">
+                 <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/citi.jpeg" alt="Citi Logo" class="logo" style="height: 2em; margin-right: 10px;">
+                 Citigroup - Specialist – Data Analytics</h3>
+                <p style="display: flex;align-items: center;padding-top:10px;">
+                 <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/location.png" class="logo" style="height: 1.2em; margin-right: 5px;"/>
+                 Chennai, TN, India | March 2021 - March 2022</p>
+                <ul class="custom-list">
+                 <br>
+                    <li align="justify"><strong>Digital Analytics:</strong> Managed paperless enrollments for marketing campaigns of existing retail banking & credit card customers, along with managing BAU deliverables.</li>
+                    <li align="justify"><strong>Credit Cards – Loyalty Assessment:</strong> Identified customer spending behavior within specific portfolios to qualify them for earn & burn campaigns.</li>
+                    <li align="justify"><strong>Routine Analytics & Impact Assessment:</strong> Executed BAU deliverables to identify any outliers or pitfalls in existing campaigns.</li>
+                    <li align="justify"><strong>Platform Migration – SAS to PySpark:</strong> Migrated old static SAS codes to the PySpark Enterprise Analytics Platform, enhancing flexibility, reducing manual intervention, and automating tedious manual tasks.</li>
+                </ul>
+            </div>
+            <div class="experience-item">
+                <h3 style="display: flex;align-items: center;">
+                 <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/verizon.jpeg" alt="Verizon Logo" class="logo" style="height: 2em; margin-right: 10px;">
+                 Verizon – Data Scientist</h3>
+                <p style="display: flex;align-items: center;padding-top:10px;">
+                 <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/location.png" class="logo" style="height: 1.2em; margin-right: 5px;"/>
+                 Chennai, TN, India | July 2019 - March 2021</p>
+                <ul class="custom-list">
+                 <br>
+                    <li align="justify"><strong>Machine Learning – Post-order Accessory Model:</strong> Predicted the likelihood of customers purchasing mobile phone accessories within a 15-day window after placing an order.</li>
+                    <li align="justify"><strong>Feed-card / Live Tiles - Optimization & Analysis:</strong> Performed analytics on personalization and prioritization of cards in the mobile app and website.</li>
+                    <li align="justify"><strong>Sales/Marketing Retrospective Analytics:</strong> Measured the effectiveness and impact of campaigns run by sales and marketing teams, providing actionable recommendations to the business.</li>
+                    <li align="justify"><strong>Effort Score Calculation:</strong> Developed a heuristic model to effectively measure customer struggles during their journey through digital touchpoints, contributing to enhanced customer experience.</li>
+                    <li align="justify"><strong>Managing Ad-hoc Requests:</strong> Handled various data-pull requests from multiple teams to effectively contribute insights to requesting teams.</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="neon-section">
+            <h2>Education</h2>
+            <p style="display: flex;align-items: center;line-height: 2.2;">
+             <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/1631367734119.jpeg" class="logo" style="height: 1.5em; margin-right: 5px;"/>
+             <strong>Bachelor of Engineering - Computer Science Engineering</strong></p>
+            <p>Sri Shakthi Institute of Engineering Technology</p>
+            <p>August 2015 - April 2019 | GPA: 7.3</p>
+        </div>
+
+        <div class="neon-section">
+            <h2>Certifications</h2>
+            <ul class="custom-list">
+                <li>AWS Certified Solutions Architect</li>
+                <li>Java Full Stack Certification</li>
+                <li>Japanese Language</li>
+            </ul>
+        </div>
+        
+        <div class="neon-section">
+            <h2>Language Proficiency</h2>
+            <table class="language-table">
+                   <thead>
+                    <tr>
+                        <th></th>
+                        <th>Speak</th>
+                        <th>Read</th>
+                        <th>Write</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>English</td>
+                <td><input type="checkbox" checked disabled></td>
+                <td><input type="checkbox" checked disabled></td>
+                <td><input type="checkbox" checked disabled></td>
+            </tr>
+            <tr>
+                <td>Japanese</td>
+                <td><input type="checkbox" checked disabled></td>
+                <td><input type="checkbox" checked disabled></td>
+                <td><input type="checkbox" checked disabled></td>
+            </tr>
+            <tr>
+                <td>Tamil</td>
+                <td><input type="checkbox" checked disabled></td>
+                <td><input type="checkbox" checked disabled></td>
+                <td><input type="checkbox" checked disabled></td>
+            </tr>
+            <tr>
+                <td>Hindi</td>
+                <td><input type="checkbox" checked disabled></td>
+                <td><input type="checkbox" disabled></td>
+                <td><input type="checkbox" disabled></td>
+            </tr>
+            </tbody>
+            </table>
+        </div>
+        
+        <div class="neon-section" >
+            <h1 style="display: inline !important;top: 0.65vw;position: relative;">&rArr;</h1>&nbsp;
+            <a href="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/Vignesh_R_Data.pdf" class="download-link" target="_blank">Download Resume PDF</a>
+        </div>
+    </div>
+    <script>
+           // JavaScript to move the custom cursor
+        const cursor = document.createElement('div');
+        cursor.classList.add('custom-cursor');
+           document.body.appendChild(cursor);
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = `${e.pageX - cursor.offsetWidth / 2}px`;
+            cursor.style.top = `${e.pageY - cursor.offsetHeight / 2}px`;
+        });
+</script>
+</body>
+</html>
