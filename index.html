@@ -260,12 +260,12 @@
         }
         .custom-list {
                list-style: none; /* Remove default bullets */
-            padding-left: 0; /* Optional: Adjust padding if needed */
         }
          /* Space for custom bullet */
         .custom-list li {
             position: relative;
             padding-left: 20px;
+            padding-top: 1.2px;
         }
 
         .custom-list li::before {
@@ -273,6 +273,8 @@
             position: absolute;
             left: 0;
             font-size: 18px; /* Adjust size if needed */
+            margin-left: -2px;
+            margin-top: -0.25%;
         }
 
         /* Table Styling */
@@ -597,6 +599,7 @@
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
             text-align: center;
+            white-space: nowrap;
         }
 
         .fab-item:hover {
@@ -604,22 +607,354 @@
             transform: scale(1.05);
         }
 
-        /* Scroll Progress Indicator */
-        .scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: rgba(255, 255, 255, 0.1);
-            z-index: 1000;
+        @media screen and (max-width: 768px) {
+            html, body {
+                width: 100%;
+                max-width: 100vw;
+                overflow-x: hidden !important;
+                position: relative;
+                margin: 0;
+                padding: 0;
+            }
+
+            .container {
+                width: 100%;
+                max-width: 100vw;
+                overflow-x: hidden;
+                padding: 15px;
+                box-sizing: border-box;
+                margin: 0;
+            }
+
+            /* Fixed positioning for floating elements */
+            .theme-switcher {
+                position: fixed;
+                right: 10px;
+                bottom: 10px;
+                padding: 6px;
+                gap: 6px;
+                transform: none !important;
+                margin: 0;
+            }
+
+            .theme-button {
+                width: 22px;
+                height: 22px;
+                min-width: 22px;
+                margin: 0;
+                padding: 0;
+            }
+
+            .fab {
+                position: fixed;
+                right: 10px;
+                bottom: 65px;
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+                margin: 0;
+                padding: 0;
+            }
+
+            .fab-menu {
+                position: fixed;
+                right: 10px;
+                bottom: 110px;
+                margin: 0;
+                width: auto;
+            }
+
+            .fab-item {
+                padding: 5px 10px;
+                font-size: 12px;
+                margin: 0;
+            }
+
+            /* Force hardware acceleration */
+            .theme-switcher,
+            .fab,
+            .fab-menu {
+                transform: translateZ(0);
+                -webkit-transform: translateZ(0);
+                backface-visibility: hidden;
+                -webkit-backface-visibility: hidden;
+                will-change: transform;
+            }
+
+            /* Prevent any overflow */
+            * {
+                max-width: 100vw;
+                box-sizing: border-box;
+            }
         }
 
-        .scroll-progress-bar {
-            height: 100%;
-            width: 0%;
+        /* iOS-specific fixes */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                min-height: -webkit-fill-available;
+            }
+        }
+
+        /* Professional Journey Tree */
+        .journey-tree {
+            position: relative;
+            padding: 20px;
+            margin: 30px auto;
+        }
+
+        .tree-container {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .tree-container::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px var(--primary-glow);
+            animation: glowPulse 2s infinite;
+            z-index: 1;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 20px var(--primary-glow); }
+            50% { box-shadow: 0 0 30px var(--primary-glow), 0 0 50px var(--secondary-glow); }
+        }
+
+        .tree-node {
+            width: 100%;
+            display: flex;
+            align-items: flex-start;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: -80px;
+        }
+
+        .tree-node.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .tree-node:last-child {
+            margin-bottom: 0;
+        }
+
+        .tree-node:nth-child(odd) {
+            justify-content: flex-start;
+            padding-right: 52%;
+        }
+
+        .tree-node:nth-child(even) {
+            justify-content: flex-end;
+            padding-left: 52%;
+            margin-top: 70px;
+        }
+
+        .node-connector {
+            position: absolute;
+            top: 25px;
+            width: 7%;
+            height: 3px;
             background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            transition: width 0.1s ease;
+            transform-origin: left;
+            animation: connectGlow 2s infinite;
+            z-index: 1;
+        }
+
+        .tree-node:nth-child(odd) .node-connector {
+            right: calc(50% + 2px);
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .tree-node:nth-child(even) .node-connector {
+            left: calc(50% + 2px);
+            background: linear-gradient(-90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .node-dot {
+            position: absolute;
+            top: 28px;
+            left: 50%;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px var(--primary-glow);
+            animation: dotFloat 3s infinite;
+            z-index: 3;
+        }
+
+        @keyframes dotFloat {
+            0%, 100% { transform: translate(-50%, -50%); }
+            50% { transform: translate(-50%, -60%); }
+        }
+
+        .node-content {
+            width: calc(100% - 50px);
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--primary-color);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            transform-style: preserve-3d;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .node-content:hover {
+            transform: translateY(-5px) rotateX(2deg) rotateY(2deg);
+            box-shadow: 0 0 25px var(--primary-glow), 0 0 35px var(--secondary-glow);
+        }
+
+        .node-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .company-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid var(--primary-color);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .node-title {
+            color: var(--secondary-color);
+            font-size: 1.1em;
+            margin: 0;
+            text-shadow: 0 0 5px var(--secondary-glow);
+        }
+
+        .node-subtitle {
+            font-size: 0.9em;
+            color: var(--primary-color);
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .node-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .node-skill {
+            padding: 4px 12px;
+            background: linear-gradient(45deg, var(--primary-glow), var(--secondary-glow));
+            border-radius: 15px;
+            font-size: 0.85em;
+            color: #fff;
+            text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .node-skill.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .node-skill:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        @media screen and (max-width: 768px) {
+            .tree-container::before {
+                left: 10px;
+            }
+
+            .tree-node {
+                padding: 0 0 0 40px !important;
+                justify-content: flex-start !important;
+                margin-bottom: 30px !important;
+                margin-top: 0 !important;
+            }
+
+            .tree-node:last-child {
+                margin-bottom: 0 !important;
+            }
+
+            .node-connector {
+                left: 10px !important;
+                width: 30px !important;
+            }
+
+            .node-dot {
+                left: 10px;
+            }
+
+            .node-content {
+                width: 100%;
+            }
+
+            .node-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .company-logo {
+                width: 35px;
+                height: 35px;
+            }
+
+            .node-title {
+                font-size: 1em;
+            }
+
+            .node-subtitle {
+                font-size: 0.85em;
+            }
+
+            .node-skill {
+                font-size: 0.8em;
+                padding: 3px 10px;
+            }
+
+            .custom-list {
+                font-size: 0.9em;
+                padding-left: 20px;  
+                margin: 10px 0;      
+            }
+
+            .custom-list li {
+                margin-bottom: 6px;  
+                line-height: 1.4;    
+            }
+
+            .node-header {
+                margin-bottom: 8px;  
+            }
+
+            .node-title {
+                font-size: 1em;      
+            }
+
+            .node-subtitle {
+                font-size: 0.85em;   
+            }
         }
     </style>
 </head>
@@ -694,74 +1029,109 @@
 
         <div class="neon-section">
             <h2>Professional Journey</h2>
-            <div class="experience-item">
-                <h3 style="display: flex;align-items: center;">
-                 <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/inframarket.jpeg" alt="Infra.Market Logo" class="logo" style="height: 2em; margin-right: 10px;">
-                 Infra.Market - Senior Data Analytics Engineer</h3>
-                <p style="display: flex;align-items: center;padding-top:10px;">
-                 <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/location.png" class="logo" style="height: 1.2em; margin-right: 5px;"/>
-                 Bengaluru, KA, India | June 2023 - Present</p>
-                <ul class="custom-list">
-                 <br>
-                    <li align="justify"><strong>Data Engineering:</strong> Architect & construct scalable ETL pipelines & data models, ensuring the seamless flow of data across various platforms.</li>
-                    <li align="justify"><strong>Data Analytics:</strong> Craft end-to-end dashboards to distill complex datasets into actionable insights, empowering stakeholders to make informed decisions based on robust data foundations.</li>
-                    <li align="justify"><strong>Leadership & Mentoring:</strong> Lead and mentor a dedicated team, fostering a collaborative and high-performing environment.</li>
-                </ul>
-            </div>
-            <div class="experience-item">
-                <h3 style="display: flex;align-items: center;">
-                 <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/linkedin.jpeg" alt="LinkedIn Logo" class="logo" style="height: 2em; margin-right: 10px;">
-                 LinkedIn - Data Insights & Analytics Engineer</h3>
-                <p style="display: flex;align-items: center;padding-top:10px;">
-                 <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/location.png" class="logo" style="height: 1.2em; margin-right: 5px;"/>
-                 Bengaluru, KA, India | March 2022 - June 2023</p>
-                <ul class="custom-list">
-                 <br>
-                    <li align="justify"><strong>Driving Scale for Platform Insights & Analytics:</strong> Intelligent automation of manual analytics. Results include client-ready decks, reports, or PDF documents, generated within a few clicks.</li>
-                    <li align="justify"><strong>Tableau Dashboard Analytics:</strong> Built end-to-end Tableau dashboards for visualizing various business verticals (e.g., Education, SaaS) for sales teams globally.</li>
-                    <li align="justify"><strong>Sentiment Analytics, Marketing, Ad Analytics & Reporting:</strong> Scaled driving value from 1x to 100x, leveraging advanced automation strategies for go-to-market (GTM) initiatives.</li>
-                </ul>
-            </div>
-            <div class="experience-item">
-                <h3 style="display: flex;align-items: center;">
-                 <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/citi.jpeg" alt="Citi Logo" class="logo" style="height: 2em; margin-right: 10px;">
-                 Citigroup - Specialist – Data Analytics</h3>
-                <p style="display: flex;align-items: center;padding-top:10px;">
-                 <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/location.png" class="logo" style="height: 1.2em; margin-right: 5px;"/>
-                 Chennai, TN, India | March 2021 - March 2022</p>
-                <ul class="custom-list">
-                 <br>
-                    <li align="justify"><strong>Digital Analytics:</strong> Managed paperless enrollments for marketing campaigns of existing retail banking & credit card customers, along with managing BAU deliverables.</li>
-                    <li align="justify"><strong>Credit Cards – Loyalty Assessment:</strong> Identified customer spending behavior within specific portfolios to qualify them for earn & burn campaigns.</li>
-                    <li align="justify"><strong>Routine Analytics & Impact Assessment:</strong> Executed BAU deliverables to identify any outliers or pitfalls in existing campaigns.</li>
-                    <li align="justify"><strong>Platform Migration – SAS to PySpark:</strong> Migrated old static SAS codes to the PySpark Enterprise Analytics Platform, enhancing flexibility, reducing manual intervention, and automating tedious manual tasks.</li>
-                </ul>
-            </div>
-            <div class="experience-item">
-                <h3 style="display: flex;align-items: center;">
-                 <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/verizon.jpeg" alt="Verizon Logo" class="logo" style="height: 2em; margin-right: 10px;">
-                 Verizon – Data Scientist</h3>
-                <p style="display: flex;align-items: center;padding-top:10px;">
-                 <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/location.png" class="logo" style="height: 1.2em; margin-right: 5px;"/>
-                 Chennai, TN, India | July 2019 - March 2021</p>
-                <ul class="custom-list">
-                 <br>
-                    <li align="justify"><strong>Machine Learning – Post-order Accessory Model:</strong> Predicted the likelihood of customers purchasing mobile phone accessories within a 15-day window after placing an order.</li>
-                    <li align="justify"><strong>Feed-card / Live Tiles - Optimization & Analysis:</strong> Performed analytics on personalization and prioritization of cards in the mobile app and website.</li>
-                    <li align="justify"><strong>Sales/Marketing Retrospective Analytics:</strong> Measured the effectiveness and impact of campaigns run by sales and marketing teams, providing actionable recommendations to the business.</li>
-                    <li align="justify"><strong>Effort Score Calculation:</strong> Developed a heuristic model to effectively measure customer struggles during their journey through digital touchpoints, contributing to enhanced customer experience.</li>
-                    <li align="justify"><strong>Managing Ad-hoc Requests:</strong> Handled various data-pull requests from multiple teams to effectively contribute insights to requesting teams.</li>
-                </ul>
+            <div class="journey-tree">
+                <div class="tree-container">
+                    <div class="tree-node">
+                        <div class="node-connector"></div>
+                        <div class="node-dot"></div>
+                        <div class="node-content">
+                            <div class="node-header">
+                                <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/inframarket.jpeg" alt="Infra.Market" class="company-logo">
+                                <div>
+                                    <h3 class="node-title">Senior Data Analytics Engineer</h3>
+                                    <p class="node-subtitle">
+                                        <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/location.png" style="height: 1em;">
+                                        Infra.Market @ Bengaluru | Jun'23 - Now
+                                    </p>
+                                </div>
+                            </div>
+                            <ul class="custom-list">
+                                <li>Data Engineering - ETL, Data Modelling</li>
+                                <li>Data Analytics - Dashboarding</li>
+                                <li>Data Catalogue + Platform Engineering</li>
+                                <li>Team Management & Mentoring</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="tree-node">
+                        <div class="node-connector"></div>
+                        <div class="node-dot"></div>
+                        <div class="node-content">
+                            <div class="node-header">
+                                <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/linkedin.jpeg" alt="LinkedIn" class="company-logo">
+                                <div>
+                                    <h3 class="node-title">Data Insights & Analytics Engineer</h3>
+                                    <p class="node-subtitle">
+                                        <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/location.png" style="height: 1em;">
+                                        LinkedIn @ Bengaluru | Mar'22 - Jun23
+                                    </p>
+                                </div>
+                            </div>
+                            <ul class="custom-list">
+                                <li>Driving Scale for Platform Insights</li>
+                                <li>Tableau Dashboard Analytics</li>
+                                <li>Sentiments, Marketing, Ad Analytics</li>
+                                <li>Data Analytics Automation</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="tree-node">
+                        <div class="node-connector"></div>
+                        <div class="node-dot"></div>
+                        <div class="node-content">
+                            <div class="node-header">
+                                <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/citi.jpeg" alt="Citi" class="company-logo">
+                                <div>
+                                    <h3 class="node-title">Specialist – Data Analytics</h3>
+                                    <p class="node-subtitle">
+                                        <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/location.png" style="height: 1em;">
+                                        Citigroup @ Chennai | Mar'21 - Mar'22
+                                    </p>
+                                </div>
+                            </div>
+                            <ul class="custom-list">
+                                <li>Digital Analytics - Campaign & Adoption</li>
+                                <li>Credit Cards – Loyalty Assessment</li>
+                                <li>Routine Analytics & Impact Assessment</li>
+                                <li>Platform Migration – SAS to PySpark</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="tree-node">
+                        <div class="node-connector"></div>
+                        <div class="node-dot"></div>
+                        <div class="node-content">
+                            <div class="node-header">
+                                <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/verizon.jpeg" alt="Verizon" class="company-logo">
+                                <div>
+                                    <h3 class="node-title">Data Scientist</h3>
+                                    <p class="node-subtitle">
+                                        <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/location.png" style="height: 1em;">
+                                        Verizon @ Chennai | Jul'19 - Mar'21
+                                    </p>
+                                </div>
+                            </div>
+                            <ul class="custom-list">
+                                <li>Machine Learning – Post-order Accessory</li>
+                                <li>Feed-card / Live Tiles - Optimization</li>
+                                <li>Sales/Marketing Retrospective Analytics</li>
+                                <li>Ad-Hoc Analytics</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-
         <div class="neon-section">
             <h2>Education</h2>
-            <p style="display: flex;align-items: center;line-height: 2.2;">
-             <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/1631367734119.jpeg" class="logo" style="height: 1.5em; margin-right: 5px;"/>
-             <strong>Bachelor of Engineering - Computer Science Engineering</strong></p>
-            <p>Sri Shakthi Institute of Engineering Technology</p>
+            <p style="display: flex;align-items: center;">
+             <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/1631367734119.jpeg" class="company-logo" style="margin-right: 5px;"/>
+             <strong>BE - Computer Science Engineering</strong></p>
+            <p>@ Sri Shakthi Institute of Engineering & Tech - Anna University</p>
             <p>August 2015 - April 2019 | GPA: 7.3</p>
         </div>
 
@@ -847,12 +1217,30 @@
             </button>
         </div>
 
-        <button class="fab" id="fabButton">+</button>
-        <div class="fab-menu" id="fabMenu">
-            <a href="mailto:vignesh.datawhiz@gmail.com" class="fab-item">📧 Email Me</a>
-            <a href="tel:+918608577937" class="fab-item">📞 Call Me</a>
-            <a href="http://www.linkedin.com/in/vcky/" target="_blank" class="fab-item">💼 LinkedIn</a>
-            <a href="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/Vignesh_R_Data.pdf" target="_blank" class="fab-item">📄 Resume</a>
+        <div class="fixed-wrapper">
+            <div class="fab-container">
+                <button class="fab" id="fabButton">+</button>
+                <div class="fab-menu" id="fabMenu">
+                    <a href="mailto:vignesh.datawhiz@gmail.com" class="fab-item">📧 Email Me</a>
+                    <a href="tel:+918608577937" class="fab-item">📞 Call Me</a>
+                    <a href="http://www.linkedin.com/in/vcky/" target="_blank" class="fab-item">💼 LinkedIn</a>
+                    <a href="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/Vignesh_R_Data.pdf" target="_blank" class="fab-item">📄 Resume</a>
+                </div>
+            </div>
+            <div class="theme-switcher" id="theme-switcher">
+                <button class="theme-button active" data-theme="default">
+                    <span class="color-preview" style="background: linear-gradient(45deg, #00fff0, #ff00ff)"></span>
+                </button>
+                <button class="theme-button" data-theme="matrix">
+                    <span class="color-preview" style="background: linear-gradient(45deg, #00ff00, #ffff00)"></span>
+                </button>
+                <button class="theme-button" data-theme="synthwave">
+                    <span class="color-preview" style="background: linear-gradient(45deg, #ff00ff, #ffa500)"></span>
+                </button>
+                <button class="theme-button" data-theme="ocean">
+                    <span class="color-preview" style="background: linear-gradient(45deg, #4facfe, #00f2fe)"></span>
+                </button>
+            </div>
         </div>
 
         <script>
@@ -1039,6 +1427,48 @@
                 const progress = (window.scrollY / totalHeight) * 100;
                 scrollProgress.style.width = `${progress}%`;
             });
+        });
+    </script>
+    <script>
+        // Timeline Animation
+        function isElementInViewport(el) {
+            const rect = el.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+
+        function handleTreeAnimation() {
+            document.querySelectorAll('.tree-node').forEach(node => {
+                if (isElementInViewport(node)) {
+                    node.classList.add('visible');
+                    
+                    // Animate skills with delay
+                    const skills = node.querySelectorAll('.node-skill');
+                    skills.forEach((skill, index) => {
+                        setTimeout(() => {
+                            skill.classList.add('visible');
+                        }, index * 100);
+                    });
+                }
+            });
+        }
+
+        // Initial check
+        handleTreeAnimation();
+
+        // Check on scroll with throttling
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            if (!scrollTimeout) {
+                scrollTimeout = setTimeout(() => {
+                    handleTreeAnimation();
+                    scrollTimeout = null;
+                }, 100);
+            }
         });
     </script>
 </body>
