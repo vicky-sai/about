@@ -484,13 +484,156 @@
                 font-size: 1.5em;
             }
         }
+
+        /* Skill Progress Animation */
+        .skill-item {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--primary-glow), transparent);
+            animation: shimmer 2s infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .skill-item:hover::after {
+            opacity: 1;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100% }
+            100% { left: 100% }
+        }
+
+        /* Interactive Profile Image */
+        .image-frame {
+            transition: transform 0.5s ease;
+            cursor: pointer;
+        }
+
+        .image-frame.rotate {
+            transform: rotateY(180deg);
+        }
+
+        .image-frame .flip-content {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-glow), var(--secondary-glow));
+            border-radius: 50%;
+            transform: rotateY(180deg);
+            font-size: 0.9em;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: #000;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .fab-menu {
+            position: fixed;
+            bottom: 140px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transform: translateY(20px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .fab-menu.active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .fab-item {
+            padding: 8px 16px;
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .fab-item:hover {
+            background: linear-gradient(45deg, var(--primary-glow), var(--secondary-glow));
+            transform: scale(1.05);
+        }
+
+        /* Scroll Progress Indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        .scroll-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: width 0.1s ease;
+        }
     </style>
 </head>
 <body>
+    <div class="scroll-progress">
+        <div class="scroll-progress-bar" id="scrollProgress"></div>
+    </div>
     <div class="container">
         <header>
             <div class="image-frame">
                 <img src="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/image.jpg" alt="Vignesh R Profile">
+                <div class="flip-content">
+                    <p>Hi! I'm Vignesh, a Data Analytics Engineer passionate about turning data into insights. Let's connect!</p>
+                </div>
             </div>
             <div class="header-content">
                 <div class="contact-desktop">
@@ -575,7 +718,7 @@
                 <ul class="custom-list">
                  <br>
                     <li align="justify"><strong>Driving Scale for Platform Insights & Analytics:</strong> Intelligent automation of manual analytics. Results include client-ready decks, reports, or PDF documents, generated within a few clicks.</li>
-                    <li align="justify"><strong>Tableau Dashboard Analytics:</strong> Built end-to-end Tableau dashboards for visualizing various business verticals (e.g., Education, SaaS) for sales teams globally. Generated succinct reports and clear visualizations to allow insights analysts to focus on strategic projects.</li>
+                    <li align="justify"><strong>Tableau Dashboard Analytics:</strong> Built end-to-end Tableau dashboards for visualizing various business verticals (e.g., Education, SaaS) for sales teams globally.</li>
                     <li align="justify"><strong>Sentiment Analytics, Marketing, Ad Analytics & Reporting:</strong> Scaled driving value from 1x to 100x, leveraging advanced automation strategies for go-to-market (GTM) initiatives.</li>
                 </ul>
             </div>
@@ -702,6 +845,14 @@
             <button class="theme-button" data-theme="ocean">
                 <span class="color-preview" style="background: linear-gradient(45deg, #4facfe, #00f2fe)"></span>
             </button>
+        </div>
+
+        <button class="fab" id="fabButton">+</button>
+        <div class="fab-menu" id="fabMenu">
+            <a href="mailto:vignesh.datawhiz@gmail.com" class="fab-item">📧 Email Me</a>
+            <a href="tel:+918608577937" class="fab-item">📞 Call Me</a>
+            <a href="http://www.linkedin.com/in/vcky/" target="_blank" class="fab-item">💼 LinkedIn</a>
+            <a href="https://raw.githubusercontent.com/vicky-sai/about/refs/heads/main/files/Vignesh_R_Data.pdf" target="_blank" class="fab-item">📄 Resume</a>
         </div>
 
         <script>
@@ -854,6 +1005,40 @@
                     }
                 });
             }
+        });
+
+        // Interactive Elements Implementation
+        document.addEventListener('DOMContentLoaded', () => {
+            // Profile Image Flip
+            const imageFrame = document.querySelector('.image-frame');
+            imageFrame.addEventListener('click', () => {
+                imageFrame.classList.toggle('rotate');
+            });
+
+            // Floating Action Button
+            const fabButton = document.getElementById('fabButton');
+            const fabMenu = document.getElementById('fabMenu');
+            
+            fabButton.addEventListener('click', () => {
+                fabMenu.classList.toggle('active');
+                fabButton.textContent = fabMenu.classList.contains('active') ? '×' : '+';
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!fabButton.contains(e.target) && !fabMenu.contains(e.target)) {
+                    fabMenu.classList.remove('active');
+                    fabButton.textContent = '+';
+                }
+            });
+
+            // Scroll Progress Indicator
+            const scrollProgress = document.getElementById('scrollProgress');
+            
+            window.addEventListener('scroll', () => {
+                const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = (window.scrollY / totalHeight) * 100;
+                scrollProgress.style.width = `${progress}%`;
+            });
         });
     </script>
 </body>
