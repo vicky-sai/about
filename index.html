@@ -273,11 +273,19 @@
             padding-top: 1.2px;
         }
 
+        /* This CSS rule applies a Unicode arrow character as a bullet point 
+           for list items within a .custom-list. The bullet is positioned 
+           absolutely to the left of the list item content. The font size 
+           can be adjusted if needed, and slight margins are used to tweak 
+           the positioning of the bullet for optimal visual alignment. */
         .custom-list li::before {
             content: "»"; /* Unicode arrow character */
             position: absolute;
             left: 0;
             font-size: 18px; /* Adjust size if needed */
+            /* Move the bullet point slightly to the left so it's centered with
+               the text. The amount of movement is based on the font size of the
+               bullet point. */
             margin-left: -2px;
             margin-top: -0.25%;
         }
@@ -1049,35 +1057,29 @@
             <h2>Technical Arsenal</h2>
             <div class="skills-grid">
                 <div class="skill-item">Python</div>
+                <div class="skill-item">SQL</div>
                 <div class="skill-item">Data Analytics</div>
                 <div class="skill-item">GCP/AWS/Azure</div>
-                <div class="skill-item">Hadoop</div>
-                <div class="skill-item">Jupyter</div>
-                <div class="skill-item">Git</div>
-                <div class="skill-item">Airflow</div>
-                <div class="skill-item">NumPy</div>
-                <div class="skill-item">Pandas</div>
-                <div class="skill-item">Postgres</div>
-                <div class="skill-item">SQL</div>
-                <div class="skill-item">Tableau</div>
-                <div class="skill-item">NLP</div>
+                <div class="skill-item">Data Engineering</div>
                 <div class="skill-item">Hadoop</div>
                 <div class="skill-item">Power BI</div>
-                <div class="skill-item">Postgres</div>
                 <div class="skill-item">Databricks</div>
                 <div class="skill-item">PySpark</div>
 				<div class="skill-item">Data Modelling</div>
-                <div class="skill-item">Data Engineering</div>
                 <div class="skill-item">ETL</div>
-                <div class="skill-item">Big Data</div>
+                <div class="skill-item">Airflow</div>
+                <div class="skill-item">Postgres</div>
+                <div class="skill-item">Tableau</div>
+                <div class="skill-item">NLP</div>
+                <div class="skill-item">Hadoop</div>
                 <div class="skill-item">ML / AI</div>
                 <div class="skill-item">Apache Hive</div>
                 <div class="skill-item">Data Governance</div>
                 <div class="skill-item">Data Catalogue</div>   
                 <div class="skill-item">Apache Kafka</div>
+                <div class="skill-item">Git</div>
                 <div class="skill-item">Excel</div>
                 <div class="skill-item">Jira</div>
-                <div class="skill-item">Automation</div>
             </div>
         </div>
 
